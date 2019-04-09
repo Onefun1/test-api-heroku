@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form id="my-form">
+        <h3>Create user</h3>
+
+        <p>
+            <label>
+                Firstname
+                <input name="firstname">
+            </label>
+        </p>
+
+        <p>
+            <label>
+                Lastname
+                <input name="lastname">
+            </label>
+        </p>
+
+        <button>Send</button>
+
+        <div id="users"></div>
+    </form>
+
+    <script>
+        const form = document.getElementById('my-form')
+        const list = document.getElementById('users');
+        let users = [];
+        render();
+
+        fetch('http://127.0.0.1:3000/users')
+            .then(res => res.json())
+            .then(data => {
+                users = data
+                render();
+            });
+
+        form.onsubmit = (event) => {
+            event.preventDefault();
+
+            const user = {
+                firstname: form.elements.firstname.value,
+                lastname: form.elements.lastname.value,
+            };
+
+            users.push(user);
+            // console.log(user);
+            // console.log(users);
+            render();
+
+        };
+
+        function render() {
+            form.elements.firstname.value = '';
+            form.elements.lastname.value = '';
+            list.innerHTML = `
+            <h3>Users</h3>
+            <ul>
+                ${users.map(user => `
+                    <li>${user.firstname} ${user.lastname}</li>
+                    `).join('') }
+            </ul>
+            `;
+        }
+    </script>
+</body>
+
+</html>
