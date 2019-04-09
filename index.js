@@ -1,19 +1,32 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fs = require("fs");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-let users = [
-  {
-    firstname: "Morgan",
-    lastname: "Freeman"
-  },
-  {
-    firstname: "First",
-    lastname: "Aid"
-  }
-];
+let users = [];
+
+readUsers();
+
+function readUsers() {
+  fs.readFile("./users.json", "utf8", function(err, data) {
+    if (err) {
+      return;
+    }
+
+    users = JSON.parse(data);
+  });
+}
+
+function writeUsers() {
+  fs.writeFile("./users.json", JSON.stringify(users), function(err) {
+    if (err) {
+      return;
+    }
+    console.log("Saved!");
+  });
+}
 
 app.use(bodyParser.text());
 app.get("/", (req, res) => res.send(`Hello from Github`));
@@ -25,6 +38,7 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   const newUser = JSON.parse(req.body);
   users.push(newUser);
+  writeUsers();
 
   res.set("Access-Control-Allow-Origin", "*");
   res.json(users);
