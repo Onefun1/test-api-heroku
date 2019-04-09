@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -31,5 +30,5 @@ app.post("/users", (req, res) => {
 });
 
 app.listen(port, () =>
-  console.log(`Example app listening on port http://127.0.0.1:${port}`)
+  console.log(`Example app listening on http://127.0.0.1:${port} !`)
 );

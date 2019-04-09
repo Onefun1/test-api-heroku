@@ -42,7 +42,6 @@
 
         form.onsubmit = (event) => {
             event.preventDefault();
-
             const user = {
                 firstname: form.elements.firstname.value,
                 lastname: form.elements.lastname.value,
@@ -73,16 +72,14 @@
         }
 
         function render() {
-            form.elements.firstname.value = '';
-            form.elements.lastname.value = '';
             list.innerHTML = `
-            <h3>Users</h3>
-            <ul>
-                ${users.map(user => `
-                    <li>${user.firstname} ${user.lastname}</li>
-                    `).join('') }
-            </ul>
-            `;
+      <h3>Users</h3>
+      <ul>
+        ${ users.map(user => `
+          <li>${user.firstname} ${user.lastname}</li>
+        `).join('') }
+      </ul>
+    `;
         }
     </script>
 </body>
