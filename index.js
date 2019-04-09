@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -15,20 +16,19 @@ let users = [
 ];
 
 app.use(bodyParser.text());
-
-app.get("/", (req, res) => res.send(`Hello World! from port: ${port}`));
+app.get("/", (req, res) => res.send(`Hello from Github`));
 app.get("/users", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.json(users);
 });
 
 app.post("/users", (req, res) => {
-  console.log(req.body);
+  const newUser = JSON.parse(req.body);
+  users.push(newUser);
 
   res.set("Access-Control-Allow-Origin", "*");
   res.json(users);
 });
-
 app.listen(port, () =>
-  console.log(`Example app listening on http://127.0.0.1:${port} !`)
+  console.log(`Example app listening on http://127.0.0.1:${port}!`)
 );
